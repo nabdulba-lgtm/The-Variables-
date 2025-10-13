@@ -1,0 +1,549 @@
+
+USERS_DB = {
+    "jkirk": {
+        "username": "jkirk",
+        "password": "CheeseCurds123",
+        "role": "student",
+        "name": "John Kirk",
+        "major": "Information Science",
+        "classes": ["INST326", "ENGL101", "HIST100", "ECON200"],
+        "grades": {
+            "INST326": {
+                "Phishing Attack Lab": {"points": 18, "max_points": 20},
+                "SQL Injection Project": {"points": 44, "max_points": 50},
+                "Password Security Quiz": {"points": 19, "max_points": 20},
+                "Midterm Exam": {"points": 45, "max_points": 50}
+            },
+            "ENGL101": {
+                "Personal Narrative Essay": {"points": 18, "max_points": 20},
+                "Research Paper Draft": {"points": 47, "max_points": 50},
+                "Literary Analysis": {"points": 17, "max_points": 20},
+                "Midterm Essay Exam": {"points": 46, "max_points": 50}
+            },
+            "HIST100": {
+                "Ancient Civilizations Quiz": {"points": 18, "max_points": 20},
+                "Renaissance Essay": {"points": 43, "max_points": 50},
+                "Midterm Exam": {"points": 40, "max_points": 50},
+                "Modern History Discussion": {"points": 18, "max_points": 20}
+            },
+            "ECON200": {
+                "Supply and Demand Quiz": {"points": 16, "max_points": 20},
+                "Microeconomics Midterm": {"points": 37, "max_points": 50},
+                "Policy Analysis Paper": {"points": 44, "max_points": 50},
+                "Market Structures Quiz": {"points": 17, "max_points": 20}
+            }
+        }
+    },
+    "swilliams": {
+        "username": "swilliams",
+        "password": "Soccer2024!",
+        "role": "student",
+        "name": "Sarah Williams",
+        "major": "Computer Science",
+        "classes": ["CMSC131", "INST326", "PHIL100", "COMM107"],
+        "grades": {
+            "CMSC131": {
+                "Java Fundamentals Quiz": {"points": 19, "max_points": 20},
+                "OOP Concepts Project": {"points": 49, "max_points": 50},
+                "Recursion Assignment": {"points": 18, "max_points": 20},
+                "Midterm Exam": {"points": 48, "max_points": 50}
+            },
+            "INST326": {
+                "Phishing Attack Lab": {"points": 20, "max_points": 20},
+                "SQL Injection Project": {"points": 48, "max_points": 50},
+                "Password Security Quiz": {"points": 19, "max_points": 20},
+                "Midterm Exam": {"points": 47, "max_points": 50}
+            },
+            "PHIL100": {
+                "Ethics Discussion Paper": {"points": 17, "max_points": 20},
+                "Logic Problem Set": {"points": 18, "max_points": 20},
+                "Philosophy Midterm": {"points": 43, "max_points": 50},
+                "Epistemology Essay": {"points": 45, "max_points": 50}
+            },
+            "COMM107": {
+                "Informative Speech": {"points": 18, "max_points": 20},
+                "Group Presentation": {"points": 45, "max_points": 50},
+                "Persuasive Speech": {"points": 19, "max_points": 20},
+                "Midterm Speech Analysis": {"points": 46, "max_points": 50}
+            }
+        }
+    },
+    "mrodriguez": {
+        "username": "mrodriguez",
+        "password": "TacoTuesday99",
+        "role": "student",
+        "name": "Maria Rodriguez",
+        "major": "Business Administration",
+        "classes": ["BMGT110", "CMSC131", "ENGL101", "PSYC100"],
+        "grades": {
+            "BMGT110": {
+                "Business Plan Outline": {"points": 18, "max_points": 20},
+                "Market Analysis Report": {"points": 46, "max_points": 50},
+                "Case Study Presentation": {"points": 17, "max_points": 20},
+                "Midterm Exam": {"points": 45, "max_points": 50}
+            },
+            "CMSC131": {
+                "Java Fundamentals Quiz": {"points": 17, "max_points": 20},
+                "OOP Concepts Project": {"points": 42, "max_points": 50},
+                "Recursion Assignment": {"points": 16, "max_points": 20},
+                "Midterm Exam": {"points": 40, "max_points": 50}
+            },
+            "ENGL101": {
+                "Personal Narrative Essay": {"points": 19, "max_points": 20},
+                "Research Paper Draft": {"points": 45, "max_points": 50},
+                "Literary Analysis": {"points": 18, "max_points": 20},
+                "Midterm Essay Exam": {"points": 48, "max_points": 50}
+            },
+            "PSYC100": {
+                "Memory and Cognition Quiz": {"points": 18, "max_points": 20},
+                "Research Methods Project": {"points": 44, "max_points": 50},
+                "Developmental Psychology Essay": {"points": 46, "max_points": 50},
+                "Midterm Exam": {"points": 18, "max_points": 20}
+            }
+        }
+    },
+    "dchen": {
+        "username": "dchen",
+        "password": "DragonFly456",
+        "role": "student",
+        "name": "David Chen",
+        "major": "Data Science",
+        "classes": ["DATA100", "PHIL100", "ENGL101", "BSCI105"],
+        "grades": {
+            "DATA100": {
+                "Python Data Analysis": {"points": 19, "max_points": 20},
+                "Statistical Modeling Project": {"points": 47, "max_points": 50},
+                "Machine Learning Assignment": {"points": 48, "max_points": 50},
+                "Midterm Exam": {"points": 20, "max_points": 20}
+            },
+            "PHIL100": {
+                "Ethics Discussion Paper": {"points": 19, "max_points": 20},
+                "Logic Problem Set": {"points": 19, "max_points": 20},
+                "Philosophy Midterm": {"points": 47, "max_points": 50},
+                "Epistemology Essay": {"points": 48, "max_points": 50}
+            },
+            "ENGL101": {
+                "Personal Narrative Essay": {"points": 17, "max_points": 20},
+                "Research Paper Draft": {"points": 40, "max_points": 50},
+                "Literary Analysis": {"points": 17, "max_points": 20},
+                "Midterm Essay Exam": {"points": 44, "max_points": 50}
+            },
+            "BSCI105": {
+                "Cell Biology Quiz": {"points": 18, "max_points": 20},
+                "Lab Report 1": {"points": 18, "max_points": 20},
+                "Genetics Problem Set": {"points": 46, "max_points": 50},
+                "Midterm Exam": {"points": 45, "max_points": 50}
+            }
+        }
+    },
+    "epatel": {
+        "username": "epatel",
+        "password": "MusicLover88",
+        "role": "student",
+        "name": "Emily Patel",
+        "major": "Engineering",
+        "classes": ["ENES100", "ECON200", "PHYS161", "COMM107"],
+        "grades": {
+            "ENES100": {
+                "Engineering Design Process": {"points": 18, "max_points": 20},
+                "CAD Modeling Project": {"points": 45, "max_points": 50},
+                "Team Prototype": {"points": 47, "max_points": 50},
+                "Midterm Exam": {"points": 18, "max_points": 20}
+            },
+            "ECON200": {
+                "Supply and Demand Quiz": {"points": 18, "max_points": 20},
+                "Microeconomics Midterm": {"points": 44, "max_points": 50},
+                "Policy Analysis Paper": {"points": 47, "max_points": 50},
+                "Market Structures Quiz": {"points": 19, "max_points": 20}
+            },
+            "PHYS161": {
+                "Kinematics Problem Set": {"points": 17, "max_points": 20},
+                "Forces and Motion Lab": {"points": 39, "max_points": 50},
+                "Energy and Momentum Quiz": {"points": 18, "max_points": 20},
+                "Midterm Exam": {"points": 44, "max_points": 50}
+            },
+            "COMM107": {
+                "Informative Speech": {"points": 19, "max_points": 20},
+                "Group Presentation": {"points": 46, "max_points": 50},
+                "Persuasive Speech": {"points": 19, "max_points": 20},
+                "Midterm Speech Analysis": {"points": 47, "max_points": 50}
+            }
+        }
+    },
+    "ajohnson": {
+        "username": "ajohnson",
+        "password": "TeachInfo2024",
+        "role": "teacher",
+        "name": "Dr. Amanda Johnson",
+        "class_taught": "INST326",
+        "department": "Information Science"
+    },
+    "bsmith": {
+        "username": "bsmith",
+        "password": "CodeMaster99",
+        "role": "teacher",
+        "name": "Prof. Brian Smith",
+        "class_taught": "CMSC131",
+        "department": "Computer Science"
+    },
+    "ctaylor": {
+        "username": "ctaylor",
+        "password": "MathRocks123",
+        "role": "teacher",
+        "name": "Dr. Catherine Taylor",
+        "class_taught": "MATH140",
+        "department": "Mathematics"
+    },
+    "dlee": {
+        "username": "dlee",
+        "password": "WriteWell456",
+        "role": "teacher",
+        "name": "Prof. Daniel Lee",
+        "class_taught": "ENGL101",
+        "department": "English"
+    },
+    "egarcia": {
+        "username": "egarcia",
+        "password": "Business2024!",
+        "role": "teacher",
+        "name": "Dr. Elena Garcia",
+        "class_taught": "BMGT110",
+        "department": "Business"
+    },
+    "fmartinez": {
+        "username": "fmartinez",
+        "password": "Physics101!",
+        "role": "teacher",
+        "name": "Prof. Frank Martinez",
+        "class_taught": "PHYS161",
+        "department": "Physics"
+    },
+    "gnguyen": {
+        "username": "gnguyen",
+        "password": "PsychTeach88",
+        "role": "teacher",
+        "name": "Dr. Grace Nguyen",
+        "class_taught": "PSYC100",
+        "department": "Psychology"
+    },
+    "hwilson": {
+        "username": "hwilson",
+        "password": "BioScience77",
+        "role": "teacher",
+        "name": "Prof. Henry Wilson",
+        "class_taught": "BSCI105",
+        "department": "Biology"
+    },
+    "ithompson": {
+        "username": "ithompson",
+        "password": "History2024!",
+        "role": "teacher",
+        "name": "Dr. Isabel Thompson",
+        "class_taught": "HIST100",
+        "department": "History"
+    },
+    "janderson": {
+        "username": "janderson",
+        "password": "Economics99",
+        "role": "teacher",
+        "name": "Prof. James Anderson",
+        "class_taught": "ECON200",
+        "department": "Economics"
+    },
+    "kbrown": {
+        "username": "kbrown",
+        "password": "CommStudies88",
+        "role": "teacher",
+        "name": "Dr. Karen Brown",
+        "class_taught": "COMM107",
+        "department": "Communication"
+    },
+    "lwhite": {
+        "username": "lwhite",
+        "password": "Philosophy77",
+        "role": "teacher",
+        "name": "Prof. Laura White",
+        "class_taught": "PHIL100",
+        "department": "Philosophy"
+    },
+    "mharris": {
+        "username": "mharris",
+        "password": "DataScience2024",
+        "role": "teacher",
+        "name": "Dr. Michael Harris",
+        "class_taught": "DATA100",
+        "department": "Data Science"
+    },
+    "nclark": {
+        "username": "nclark",
+        "password": "Engineering123",
+        "role": "teacher",
+        "name": "Prof. Nancy Clark",
+        "class_taught": "ENES100",
+        "department": "Engineering"
+    }
+}
+
+ACTIVE_SESSIONS = {}
+
+
+def displayAvailableLogins():
+    # Display all available student and teacher logins at program start.
+    print("\nAVAILABLE LOGINS\n")
+    
+    print("STUDENTS:\n")
+    for username in USERS_DB:
+        user = USERS_DB[username]
+        if user["role"] == "student":
+            major = user.get("major", "Undeclared")
+            print("Login: " + user["name"] + ", " + major + " major")
+            print("       Username: " + username + ", Password: " + user["password"])
+            print()
+    
+    print("\nTEACHERS:\n")
+    for username in USERS_DB:
+        user = USERS_DB[username]
+        if user["role"] == "teacher":
+            class_taught = user.get("class_taught", "N/A")
+            dept = user.get("department", "N/A")
+            print("Login: " + user["name"] + ", " + dept + " - " + class_taught)
+            print("       Username: " + username + ", Password: " + user["password"])
+            print()
+
+
+def calculatePointsPercentage(points_earned, max_points):
+    # Calculate percentage from points earned out of max points.
+    if max_points <= 0:
+        return None
+    
+    if points_earned < 0:
+        return None
+    
+    percentage = (points_earned / max_points) * 100
+    return round(percentage, 2)
+
+
+def calculateCourseAverage(assignments_dict):
+    # Calculate course average percentage from points-based assignments.
+    if not assignments_dict or not isinstance(assignments_dict, dict):
+        return 0, 0, None
+    
+    total_points_earned = 0
+    total_max_points = 0
+    
+    for assignment_name in assignments_dict:
+        assignment = assignments_dict[assignment_name]
+        
+        if isinstance(assignment, dict):
+            points = assignment.get("points", 0)
+            max_points = assignment.get("max_points", 0)
+            
+            if isinstance(points, (int, float)) and isinstance(max_points, (int, float)):
+                if points >= 0 and max_points > 0:
+                    total_points_earned += points
+                    total_max_points += max_points
+    
+    if total_max_points == 0:
+        return 0, 0, None
+    
+    percentage = (total_points_earned / total_max_points) * 100
+    
+    return total_points_earned, total_max_points, round(percentage, 2)
+
+
+def loginUser(credentials):
+    # Handle secure user login with credentials validation.
+    if not credentials or not isinstance(credentials, dict):
+        return False, None, "Error: Invalid credentials format"
+    
+    username = credentials.get("username", "").strip().lower()
+    password = credentials.get("password", "")
+    
+    if not username or not password:
+        return False, None, "Error: Username and password are required"
+    
+    if username not in USERS_DB:
+        return False, None, "Error: Invalid username or password"
+    
+    user = USERS_DB[username]
+    
+    if password != user["password"]:
+        return False, None, "Error: Invalid username or password"
+    
+    userId = username
+    
+    session_data = {
+        "username": username,
+        "role": user["role"],
+        "name": user["name"]
+    }
+    
+    if user["role"] == "student":
+        session_data["major"] = user.get("major", "Undeclared")
+        session_data["classes"] = user.get("classes", [])
+    elif user["role"] == "teacher":
+        session_data["class_taught"] = user.get("class_taught", "N/A")
+        session_data["department"] = user.get("department", "N/A")
+    
+    ACTIVE_SESSIONS[userId] = session_data
+    
+    return True, userId, "Login successful! Welcome back, " + user['name']
+
+
+def displayUserDashboard(userId):
+    # Display the user's dashboard after successful login.
+    if userId not in ACTIVE_SESSIONS:
+        print("Error: No active session found. Please log in first.")
+        return
+    
+    session = ACTIVE_SESSIONS[userId]
+    user = USERS_DB[userId]
+    
+    print("\nDASHBOARD - " + session["name"])
+    print("Role: " + session["role"].upper())
+    
+    if session["role"] == "student":
+        print("Major: " + session.get("major", "Undeclared"))
+        print("\nYOUR CLASSES AND GRADES\n")
+        
+        classes = session.get("classes", [])
+        grades = user.get("grades", {})
+        
+        if classes and grades:
+            for course in classes:
+                print("\n" + course)
+                
+                if course in grades:
+                    assignments = grades[course]
+                    
+                    for assignment_name in assignments:
+                        assignment = assignments[assignment_name]
+                        points = assignment.get("points", 0)
+                        max_points = assignment.get("max_points", 0)
+                        print("  " + assignment_name + ": " + str(points) + "/" + str(max_points) + " points")
+                    
+                    earned, total, percentage = calculateCourseAverage(assignments)
+                    if percentage is not None:
+                        print("\n  Total Points: " + str(earned) + "/" + str(total))
+                        print("  Course Average: " + "{:.2f}".format(percentage) + "%")
+                else:
+                    print("  No grades available")
+        else:
+            print("No classes or grades available")
+    
+    elif session["role"] == "teacher":
+        print("Department: " + session.get("department", "N/A"))
+        print("Class Taught: " + session.get("class_taught", "N/A"))
+        
+        class_taught = session.get("class_taught", "N/A")
+        print("\nSTUDENTS IN YOUR CLASS:\n")
+        
+        # Find all students enrolled in this teacher's class
+        students_found = False
+        for username in USERS_DB:
+            student = USERS_DB[username]
+            if student["role"] == "student":
+                classes = student.get("classes", [])
+                if class_taught in classes:
+                    students_found = True
+                    print("\nStudent: " + student["name"])
+                    print("Major: " + student.get("major", "Undeclared"))
+                    
+                    # Display grades for this specific class
+                    grades = student.get("grades", {})
+                    if class_taught in grades:
+                        assignments = grades[class_taught]
+                        print("Grades in " + class_taught + ":")
+                        
+                        for assignment_name in assignments:
+                            assignment = assignments[assignment_name]
+                            points = assignment.get("points", 0)
+                            max_points = assignment.get("max_points", 0)
+                            print("  " + assignment_name + ": " + str(points) + "/" + str(max_points) + " points")
+                        
+                        earned, total, percentage = calculateCourseAverage(assignments)
+                        if percentage is not None:
+                            print("  Total: " + str(earned) + "/" + str(total) + " | Average: " + "{:.2f}".format(percentage) + "%")
+                    else:
+                        print("No grades available for this class")
+        
+        if not students_found:
+            print("No students enrolled in " + class_taught)
+    
+    print()
+
+
+def getUserRole(userId):
+    # Determine if the user is a teacher or student.
+    if userId in USERS_DB:
+        return USERS_DB[userId]["role"]
+    return None
+
+
+
+
+
+def logoutUser(userId):
+    # Log out a user and clear their session.
+    if userId in ACTIVE_SESSIONS:
+        del ACTIVE_SESSIONS[userId]
+        return True, "Logged out successfully"
+    
+    return False, "Error: No active session found"
+
+
+def interactiveLogin():
+    # Prompt the user to enter username and password, then log them in.
+    while True:
+        print("\nLOGIN\n")
+        
+        username = input("Enter username: ").strip()
+        password = input("Enter password: ").strip()
+        
+        success, userId, message = loginUser({
+            "username": username,
+            "password": password
+        })
+        
+        print("\n" + message)
+        
+        if success:
+            displayUserDashboard(userId)
+            return userId
+        else:
+            retry = input("\nWould you like to try again? (yes/no): ").strip().lower()
+            if retry not in ['yes', 'y']:
+                print("Exiting login. Goodbye!")
+                return None
+
+
+def showDashboardWithLogout(userId):
+    # Display dashboard with logout option at the bottom.
+    while True:
+        displayUserDashboard(userId)
+        
+        print("Type 'logout' to exit, or press Enter to refresh dashboard: ")
+        choice = input().strip().lower()
+        
+        if choice == 'logout':
+            success, message = logoutUser(userId)
+            print("\n" + message + "\n")
+            return False
+
+
+def main():
+    # Main program function that runs the login flow with dashboard.
+    while True:
+        displayAvailableLogins()
+        
+        userId = interactiveLogin()
+        
+        if userId:
+            print("\n[You are now logged in as " + userId + "]")
+            showDashboardWithLogout(userId)
+        else:
+            break
+
+
+if __name__ == "__main__":
+    main()
