@@ -1,0 +1,144 @@
+def add_assignment_grade(student_id, class_name, assignment_name, points, max_points):
+    """Add or update a student's grade for an assignment in a class.
+    
+    Args:
+        student_id (str): The unique ID of the student.
+        class_name (str): The name of the class.
+        assignment_name (str): The name of the assignment.
+        points (float): The number of points the student earned.
+        max_points (float): The maximum number of points possible.
+    
+    Returns:
+        None
+    
+    Raises:
+        TypeError: If any input is of an invalid type.
+        KeyError: If the student is not found or not enrolled in the class.
+    
+    Examples:
+        >>> add_assignment_grade("s123", "Math", "Homework 1", 85, 100)
+        Added grade for 'Homework 1' in Math for Alice.
+    """
+    # Validate input types
+    if not isinstance(student_id, str):
+        raise TypeError("student_id must be a string")
+    if not isinstance(class_name, str):
+        raise TypeError("class_name must be a string")
+    if not isinstance(assignment_name, str):
+        raise TypeError("assignment_name must be a string")
+    if not isinstance(points, (int, float)):
+        raise TypeError("points must be a number")
+    if not isinstance(max_points, (int, float)):
+        raise TypeError("max_points must be a number")
+
+    # Check if student exists
+    if student_id not in students:
+        raise KeyError(f"Student '{student_id}' not found.")
+
+    student = students[student_id]
+
+    # Check if student is enrolled in the class
+    if class_name not in student["classes"]:
+        raise KeyError(f"{student['name']} is not enrolled in {class_name}.")
+
+    # Initialize the grades dictionary if missing
+    if "grades" not in student:
+        student["grades"] = {}
+
+    # Initialize the class entry in grades if missing
+    if class_name not in student["grades"]:
+        student["grades"][class_name] = {}
+
+    # Add or update the assignment grade
+    student["grades"][class_name][assignment_name] = {
+        "points": points,
+        "max_points": max_points
+    }
+
+    print(f"Added grade for '{assignment_name}' in {class_name} for {student['name']}.")
+
+
+
+
+
+def update_assignment_grade(student_id, class_name, assignment_name, new_points, new_max_points):
+    """Update an existing assignment grade for a student in a class.
+
+    Args:
+        student_id (str): The unique ID of the student.
+        class_name (str): The name of the class.
+        assignment_name (str): The name of the assignment.
+        new_points (float): The updated number of points earned.
+        new_max_points (float): The updated maximum number of points.
+
+    Returns:
+        None
+
+    Raises:
+        TypeError: If any input is of an invalid type.
+        KeyError: If the student, class, or assignment is not found.
+
+    Examples:
+        >>> update_assignment_grade("s123", "Math", "Homework 1", 90, 100)
+        Updated grade for 'Homework 1' in Math for Alice.
+    """
+    # Validate input types
+    if not isinstance(student_id, str):
+        raise TypeError("student_id must be a string")
+    if not isinstance(class_name, str):
+        raise TypeError("class_name must be a string")
+    if not isinstance(assignment_name, str):
+        raise TypeError("assignment_name must be a string")
+    if not isinstance(new_points, (int, float)):
+        raise TypeError("new_points must be a number")
+    if not isinstance(new_max_points, (int, float)
+
+
+def delete_assignment_grade(student_id, class_name, assignment_name):
+    """Delete an assignment grade for a student in a specific class.
+
+    Args:
+        student_id (str): The unique ID of the student.
+        class_name (str): The name of the class.
+        assignment_name (str): The name of the assignment to delete.
+
+    Returns:
+        None
+
+    Raises:
+        TypeError: If any input is of an invalid type.
+        KeyError: If the student, class, or assignment does not exist.
+
+    Examples:
+        >>> delete_assignment_grade("s123", "Math", "Homework 1")
+        Deleted 'Homework 1' from Math for Alice.
+    """
+    # Validate input types
+    if not isinstance(student_id, str):
+        raise TypeError("student_id must be a string")
+    if not isinstance(class_name, str):
+        raise TypeError("class_name must be a string")
+    if not isinstance(assignment_name, str):
+        raise TypeError("assignment_name must be a string")
+
+    # Check if student exists
+    if student_id not in students:
+        raise KeyError(f"Student '{student_id}' not found.")
+
+    student = students[student_id]
+
+    # Check if grades exist for the class
+    if class_name not in student.get("grades", {}):
+        raise KeyError(f"No grades found for {class_name}.")
+
+    # Check if assignment exists in the class
+    if assignment_name not in student["grades"][class_name]:
+        raise KeyError(f"Assignment '{assignment_name}' not found in {class_name}.")
+
+    # Delete the assignment
+    del student["grades"][class_name][assignment_name]
+    print(f"Deleted '{assignment_name}' from {class_name} for {student['name']}.")
+
+    # Optional: Remove the class if no more assignments remain
+    if not student["grades"][class_name]:
+        del student["grades"][class_name]
