@@ -1,0 +1,96 @@
+from typing import List, Dict
+
+
+class Gradebook:
+    """Represents a collection of student grades with filtering and analysis capabilities.
+    
+    This class encapsulates all grade-related data and provides methods
+    to filter and analyze grades based on assignment type, score range, 
+    student name, lateness, and week number.
+    
+    Example:
+        >>> grades = [
+        ...     {'name': 'Alex', 'assignment_type': 'quiz', 'score': 85, 'is_late': False, 'week': 2},
+        ...     {'name': 'Maria', 'assignment_type': 'exam', 'score': 92, 'is_late': True, 'week': 2},
+        ...     {'name': 'Sam', 'assignment_type': 'homework', 'score': 70, 'is_late': False, 'week': 3}
+        ... ]
+        >>> gb = Gradebook(grades)
+        >>> gb.filter_by_assignment_type('quiz')
+        [{'name': 'Alex', 'assignment_type': 'quiz', 'score': 85, 'is_late': False, 'week': 2}]
+    """
+
+    def __init__(self, grades_list: List[Dict]):
+        """Initialize the Gradebook with a list of grade records.
+        
+        Args:
+            grades_list (list of dict): List containing grade data.
+                Each record should have at least 'name', 'assignment_type', and 'score' keys.
+        
+        Raises:
+            ValueError: If grades_list is not a list or contains invalid entries.
+        """
+        if not isinstance(grades_list, list):
+            raise ValueError("grades_list must be a list of dictionaries")
+        for grade in grades_list:
+            if not isinstance(grade, dict):
+                raise ValueError("Each grade record must be a dictionary")
+        
+        self._grades = grades_list  # encapsulated data (private)
+
+    # -------------------- PROPERTIES --------------------
+
+    @property
+    def grades(self) -> List[Dict]:
+        """list of dict: Return all grade records."""
+        return self._grades
+
+    @grades.setter
+    def grades(self, new_grades: List[Dict]):
+        """Set a new list of grades, ensuring valid input."""
+        if not isinstance(new_grades, list):
+            raise ValueError("grades must be a list of dictionaries")
+        self._grades = new_grades
+
+    # -------------------- METHODS --------------------
+
+    def filter_by_assignment_type(self, assignment_type: str) -> List[Dict]:
+        """Return all grades for a given assignment type."""
+        return [g for g in self._grades if g.get('assignment_type') == assignment_type]
+
+    def filter_late_submissions(self) -> List[Dict]:
+        """Return all late submissions (is_late == True)."""
+        return [g for g in self._grades if g.get('is_late', False)]
+
+    def filter_by_score_range(self, min_score: int = 0, max_score: int = 100) -> List[Dict]:
+        """Return grades with scores within the given range."""
+        return [g for g in self._grades if min_score <= g.get('score', 0) <= max_score]
+
+    def filter_by_student_name(self, student_name: str) -> List[Dict]:
+        """Return all records for a given student name (case-insensitive)."""
+        return [g for g in self._grades if g.get('name', '').lower() == student_name.lower()]
+
+    def filter_by_week(self, week_number: int) -> List[Dict]:
+        """Return all grades submitted during a specific week."""
+        return [g for g in self._grades if g.get('week') == week_number]
+
+    def add_grade(self, record: Dict):
+        """Add a new grade record to the gradebook.
+        
+        Args:
+            record (dict): A dictionary representing a student's grade record.
+        
+        Raises:
+            ValueError: If the record is not a valid dictionary or missing required fields.
+        """
+        required_keys = {'name', 'assignment_type', 'score'}
+        if not isinstance(record, dict) or not required_keys.issubset(record):
+            raise ValueError(f"Record must be a dictionary containing {required_keys}")
+        self._grades.append(record)
+
+    # -------------------- REPRESENTATIONS --------------------
+
+    def __str__(self):
+        return f"Gradebook with {len(self._grades)} records"
+
+    def __repr__(self):
+        return f"Gradebook(num_records={len(self._grades)})"
