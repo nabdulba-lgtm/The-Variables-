@@ -94,3 +94,106 @@ class Gradebook:
 
     def __repr__(self):
         return f"Gradebook(num_records={len(self._grades)})"
+
+from typing import List, Dict
+
+
+#--------------------------------------------
+
+class Student:
+    """Represents a student with personal info and their grades.
+
+    This class encapsulates student details and allows interaction with
+    their grade records through a Gradebook instance.
+
+    Example:
+        >>> grades = [
+        ...     {'name': 'Alex', 'assignment_type': 'quiz', 'score': 85, 'is_late': False, 'week': 2},
+        ...     {'name': 'Alex', 'assignment_type': 'exam', 'score': 92, 'is_late': True, 'week': 2}
+        ... ]
+        >>> from gradebook import Gradebook
+        >>> gb = Gradebook(grades)
+        >>> student = Student('Alex Johnson', 'INST326', gb)
+        >>> student.get_average()
+        88.5
+        >>> student.add_grade({'name': 'Alex Johnson', 'assignment_type': 'homework', 'score': 78, 'is_late': False, 'week': 3})
+        >>> student.get_average()
+        85.0
+    """
+
+    def __init__(self, name: str, course: str, gradebook):
+        """
+        Initialize a student.
+
+        Args:
+            name (str): Full name of the student.
+            course (str): Course name or code.
+            gradebook (Gradebook): Gradebook instance containing this student's grades.
+
+        Raises:
+            ValueError: If name or course is empty, or gradebook is not a Gradebook instance.
+        """
+        if not name.strip():
+            raise ValueError("Student name cannot be empty")
+        if not course.strip():
+            raise ValueError("Course cannot be empty")
+        if not hasattr(gradebook, 'grades'):
+            raise ValueError("gradebook must be a Gradebook instance")
+
+        self._name = name
+        self._course = course
+        self._gradebook = gradebook
+
+    # -------------------- PROPERTIES --------------------
+    @property
+    def name(self) -> str:
+        """str: Get the student's name (read-only)."""
+        return self._name
+
+    @property
+    def course(self) -> str:
+        """str: Get the course name (read-only)."""
+        return self._course
+
+    @property
+    def gradebook(self):
+        """Gradebook: Get the gradebook instance associated with the student."""
+        return self._gradebook
+
+    # -------------------- METHODS --------------------
+    def get_grades(self) -> List[Dict]:
+        """Return all grade records for this student."""
+        return self._gradebook.filter_by_student_name(self._name)
+
+    def get_average(self) -> float:
+        """Calculate and return the average score for this student.
+
+        Returns:
+            float: Average score across all assignments, or 0 if no grades.
+        """
+        grades = self.get_grades()
+        if not grades:
+            return 0.0
+        total = sum(g['score'] for g in grades)
+        return round(total / len(grades), 2)
+
+    def add_grade(self, record: Dict):
+        """Add a new grade record for this student.
+
+        Args:
+            record (dict): Dictionary containing grade info.
+
+        Raises:
+            ValueError: If the record does not belong to this student.
+        """
+        if record.get('name') != self._name:
+            raise ValueError("Cannot add grade for a different student")
+        self._gradebook.add_grade(record)
+
+    # -------------------- REPRESENTATIONS --------------------
+    def __str__(self):
+        return f"{self._name} ({self._course}) - Average: {self.get_average()}"
+
+    def __repr__(self):
+        return f"Student(name='{self._name}', course='{self._course}', average={self.get_average()})"
+
