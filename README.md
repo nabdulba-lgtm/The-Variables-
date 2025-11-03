@@ -110,3 +110,60 @@ Testing
 
 - Test all new code locally before pushing.
 - Add test cases or examples when new features are introduced.
+
+PROJECT 2 READ ME
+README Update: Gradebook and Student Class Integration
+
+This update introduces a new object-oriented design to the project by adding two major Python modules: gradebook.py and student.py, located within the src/ directory. These files establish a foundation for managing and analyzing student performance data in a structured, reusable way.
+
+Overview of Additions
+
+src/gradebook.py
+
+Contains the Gradebook class, which manages a collection of grade records.
+
+Implements functionality for filtering, organizing, and adding grades.
+
+Validates data integrity (ensuring that all records are dictionaries containing the required fields).
+
+Provides methods to filter grades by:
+
+Assignment type (e.g., quiz, exam, homework)
+
+Late submissions
+
+Score range
+
+Student name
+
+Week number
+
+src/student.py
+
+Contains the Student class, representing an individual student.
+
+Integrates directly with the Gradebook class.
+
+Allows each student to access their own grades and compute their average score.
+
+Includes safeguards to prevent adding grades for a different student.
+
+examples/basic_usage.py
+
+Demonstrates how to use both classes together.
+
+Acts as a template for developers or testers who want to understand the workflow.
+
+Includes a dataset of mock grades and shows how to display a student’s average and grade list.
+
+Purpose of the Update
+
+The goal of this update is to modularize the codebase, improve code readability, and make the system easily expandable for future functionality such as:
+
+Grade statistics (e.g., class average, top performers)
+
+Data import/export from CSV or databases
+
+Integration with front-end dashboards or APIs
+
+This structured, class-based design allows multiple components (students, assignments, analytics tools) to interact smoothly and encourages clean, maintainable development practices.
