@@ -1,5 +1,4 @@
-from typing import List, Dict
-
+from typing import List, Dict, Optional
 
 class Gradebook:
     """Represents a collection of student grades with filtering and analysis capabilities.
@@ -197,3 +196,203 @@ class Student:
     def __repr__(self):
         return f"Student(name='{self._name}', course='{self._course}', average={self.get_average()})"
 
+class Assignment:
+    """Represents an assignment with grading information.
+    
+    Example:
+        >>> assignment = Assignment('Midterm', 'exam', max_points=100, week=8)
+        >>> assignment.calculate_percentage(85)
+        85.0
+    """
+
+    def __init__(self, name: str, assignment_type: str, max_points: float = 100, week: int = 1):
+        """Initialize an assignment."""
+        if not name.strip():
+            raise ValueError("Assignment name cannot be empty")
+        if max_points <= 0:
+            raise ValueError("max_points must be positive")
+        self._name = name
+        self._assignment_type = assignment_type.lower()
+        self._max_points = float(max_points)
+        self._week = week
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def assignment_type(self) -> str:
+        return self._assignment_type
+
+    @property
+    def max_points(self) -> float:
+        return self._max_points
+
+    @property
+    def week(self) -> int:
+        return self._week
+
+    def calculate_percentage(self, points_earned: float) -> Optional[float]:
+        """Calculate percentage grade."""
+        if points_earned < 0:
+            return None
+        return round((points_earned / self._max_points) * 100, 2)
+
+    def create_grade_record(self, student_name: str, points_earned: float, is_late: bool = False) -> Dict:
+        """Create a grade record dictionary."""
+        if not student_name.strip():
+            raise ValueError("student_name cannot be empty")
+        if points_earned < 0 or points_earned > self._max_points:
+            raise ValueError(f"points_earned must be between 0 and {self._max_points}")
+        return {
+            'name': student_name,
+            'assignment_type': self._assignment_type,
+            'score': points_earned,
+            'is_late': is_late,
+            'week': self._week
+        }
+
+    def __str__(self):
+        return f"{self._name} ({self._assignment_type}) - {self._max_points} pts, Week {self._week}"
+
+    def __repr__(self):
+        return f"Assignment('{self._name}', '{self._assignment_type}', {self._max_points}, week={self._week})"
+
+
+class Course:
+    """Represents a course with enrolled students.
+    
+    Example:
+        >>> course = Course('INST326', 'Object-Oriented Programming', 'Dr. Johnson')
+        >>> course.get_enrollment_count()
+        0
+    """
+
+    def __init__(self, course_code: str, course_name: str, instructor_name: str):
+        """Initialize a course."""
+        if not course_code.strip():
+            raise ValueError("course_code cannot be empty")
+        if not course_name.strip():
+            raise ValueError("course_name cannot be empty")
+        if not instructor_name.strip():
+            raise ValueError("instructor_name cannot be empty")
+        self._course_code = course_code.upper()
+        self._course_name = course_name
+        self._instructor_name = instructor_name
+        self._students = []
+
+    @property
+    def course_code(self) -> str:
+        return self._course_code
+
+    @property
+    def course_name(self) -> str:
+        return self._course_name
+
+    @property
+    def instructor_name(self) -> str:
+        return self._instructor_name
+
+    @property
+    def students(self) -> List:
+        return self._students
+
+    def add_student(self, student):
+        """Enroll a student."""
+        if not isinstance(student, Student):
+            raise ValueError("Must provide a Student instance")
+        if student in self._students:
+            raise ValueError(f"{student.name} already enrolled")
+        self._students.append(student)
+
+    def get_enrollment_count(self) -> int:
+        """Get number of enrolled students."""
+        return len(self._students)
+
+    def get_course_average(self) -> float:
+        """Calculate average grade across all students."""
+        if not self._students:
+            return 0.0
+        total = sum(s.get_average() for s in self._students)
+        return round(total / len(self._students), 2)
+
+    def get_students_by_performance(self, min_score: float = 0, max_score: float = 100) -> List:
+        """Get students with averages in score range."""
+        return [s for s in self._students if min_score <= s.get_average() <= max_score]
+
+    def __str__(self):
+        return f"{self._course_code}: {self._course_name} ({len(self._students)} students)"
+
+    def __repr__(self):
+        return f"Course('{self._course_code}', '{self._course_name}')"
+
+
+class Teacher:
+    """Represents a teacher who manages courses.
+    
+    Example:
+        >>> teacher = Teacher('Dr. Johnson', 'Information Science')
+        >>> teacher.get_courses_taught()
+        []
+    """
+
+    def __init__(self, name: str, department: str, username: str = None):
+        """Initialize a teacher."""
+        if not name.strip():
+            raise ValueError("Teacher name cannot be empty")
+        if not department.strip():
+            raise ValueError("Department cannot be empty")
+        self._name = name
+        self._department = department
+        self._username = username if username else name.lower().replace(' ', '_')
+        self._courses = []
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def department(self) -> str:
+        return self._department
+
+    @property
+    def username(self) -> str:
+        return self._username
+
+    @property
+    def courses(self) -> List:
+        return self._courses
+
+    def add_course(self, course):
+        """Add a course to teaching load."""
+        if not isinstance(course, Course):
+            raise ValueError("Must provide a Course instance")
+        if course in self._courses:
+            raise ValueError(f"Already teaching {course.course_code}")
+        self._courses.append(course)
+
+    def get_courses_taught(self) -> List[str]:
+        """Get list of course codes taught."""
+        return [c.course_code for c in self._courses]
+
+    def add_grade_to_student(self, course, student, assignment, points_earned: float, is_late: bool = False):
+        """Add a grade for a student in a course."""
+        if course not in self._courses:
+            raise ValueError(f"Not teaching {course.course_code}")
+        if student not in course.students:
+            raise ValueError(f"{student.name} not enrolled in {course.course_code}")
+        grade_record = assignment.create_grade_record(student.name, points_earned, is_late)
+        student.add_grade(grade_record)
+
+    def get_total_students(self) -> int:
+        """Get total unique students across all courses."""
+        all_students = set()
+        for course in self._courses:
+            all_students.update(course.students)
+        return len(all_students)
+
+    def __str__(self):
+        return f"Teacher: {self._name} ({self._department}) - {len(self._courses)} course(s)"
+
+    def __repr__(self):
+        return f"Teacher('{self._name}', '{self._department}')"
