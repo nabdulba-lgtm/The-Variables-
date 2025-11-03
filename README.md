@@ -111,59 +111,144 @@ Testing
 - Test all new code locally before pushing.
 - Add test cases or examples when new features are introduced.
 
-PROJECT 2 READ ME
-README Update: Gradebook and Student Class Integration
+README: Grade Filtering System
+Overview
 
-This update introduces a new object-oriented design to the project by adding two major Python modules: gradebook.py and student.py, located within the src/ directory. These files establish a foundation for managing and analyzing student performance data in a structured, reusable way.
+The Grade Filtering System is a modular and object-oriented Python project designed to help instructors and students efficiently manage and analyze grade data. The system allows users to filter grade records based on specific criteria such as assignment type, submission status, score range, student name, and week number.
 
-Overview of Additions
+This program was developed with scalability and clarity in mind — separating responsibilities into distinct classes and methods to make future updates, extensions, and maintenance straightforward.
 
-src/gradebook.py
+System Architecture
 
-Contains the Gradebook class, which manages a collection of grade records.
+The project follows a modular architecture, meaning that each component of the system has a specific responsibility. This ensures clean organization, readability, and reusability.
 
-Implements functionality for filtering, organizing, and adding grades.
+A typical project structure might look like this:
 
-Validates data integrity (ensuring that all records are dictionaries containing the required fields).
+GradebookSystem/
+│
+├── grade_filters.py     # Contains the GradeFilter class for filtering logic
+├── gradebook.py         # Handles adding, storing, and managing grades
+├── utils.py             # (Optional) Shared utility functions for data handling
+└── main.py              # Entry point of the program
 
-Provides methods to filter grades by:
+Explanation of Architecture
 
-Assignment type (e.g., quiz, exam, homework)
+grade_filters.py – Defines the GradeFilter class, which includes multiple class methods for filtering grade data based on user-defined conditions.
 
-Late submissions
+gradebook.py – Manages the collection of grade records, storing them as dictionaries or database entries. This file might later handle file I/O or database integration.
 
-Score range
+main.py – Acts as the main program that imports and calls methods from other modules. This separation ensures that filtering, data management, and user interaction remain independent.
 
-Student name
+This modular design allows for easy maintenance and testing. For instance, if new filtering features or grading criteria are introduced, you can simply add a new method inside the GradeFilter class without modifying the rest of the system.
 
-Week number
+Class Design: GradeFilter
 
-src/student.py
+The GradeFilter class serves as a centralized hub for all filtering operations. Each method within the class performs a specific filtering task, ensuring consistency across different grade datasets.
 
-Contains the Student class, representing an individual student.
+Example Class Implementation
+class GradeFilter:
+    """A class containing methods to filter grade data based on various criteria."""
 
-Integrates directly with the Gradebook class.
+    @classmethod
+    def filter_by_assignment_type(cls, grades_list, assignment_type):
+        """Filter grades by assignment type."""
+        return [g for g in grades_list if g.get('assignment_type') == assignment_type]
 
-Allows each student to access their own grades and compute their average score.
+    @classmethod
+    def filter_late_submissions(cls, grades_list):
+        """Filter out all assignments that were submitted late."""
+        return [g for g in grades_list if g.get('is_late', False)]
 
-Includes safeguards to prevent adding grades for a different student.
+    @classmethod
+    def filter_by_score_range(cls, grades_list, min_score=0, max_score=100):
+        """Filter students based on a score range."""
+        return [g for g in grades_list if min_score <= g.get('score', 0) <= max_score]
 
-examples/basic_usage.py
+    @classmethod
+    def filter_by_student_name(cls, grades_list, student_name):
+        """Filter all records for a specific student (case-insensitive)."""
+        return [g for g in grades_list if g.get('name', '').lower() == student_name.lower()]
 
-Demonstrates how to use both classes together.
+    @classmethod
+    def filter_by_week(cls, grades_list, week_number):
+        """Filter grades submitted in a specific week."""
+        return [g for g in grades_list if g.get('week') == week_number]
 
-Acts as a template for developers or testers who want to understand the workflow.
+Example Usage
 
-Includes a dataset of mock grades and shows how to display a student’s average and grade list.
+Here’s how you can use the GradeFilter class in your program:
 
-Purpose of the Update
+from grade_filters import GradeFilter
 
-The goal of this update is to modularize the codebase, improve code readability, and make the system easily expandable for future functionality such as:
+grades = [
+    {'name': 'Alex', 'assignment_type': 'quiz', 'score': 85, 'is_late': False, 'week': 1},
+    {'name': 'Maria', 'assignment_type': 'exam', 'score': 92, 'is_late': True, 'week': 2},
+    {'name': 'John', 'assignment_type': 'homework', 'score': 70, 'is_late': False, 'week': 1}
+]
 
-Grade statistics (e.g., class average, top performers)
+# Example: Filter by assignment type
+quiz_grades = GradeFilter.filter_by_assignment_type(grades, 'quiz')
 
-Data import/export from CSV or databases
+# Example: Filter late submissions
+late_submissions = GradeFilter.filter_late_submissions(grades)
 
-Integration with front-end dashboards or APIs
+# Example: Filter by score range
+high_scores = GradeFilter.filter_by_score_range(grades, 80, 100)
 
-This structured, class-based design allows multiple components (students, assignments, analytics tools) to interact smoothly and encourages clean, maintainable development practices.
+# Example: Filter by student name
+alex_grades = GradeFilter.filter_by_student_name(grades, 'Alex')
+
+# Example: Filter by week
+week1_grades = GradeFilter.filter_by_week(grades, 1)
+
+How to Update the README
+
+Whenever you make updates to the code, such as:
+
+Adding new filtering methods (e.g., filter by average, filter by grade letter)
+
+Modifying parameter names or return types
+
+Changing the architecture (adding new files, classes, or dependencies)
+
+Follow these steps to update this README:
+
+Update the Overview section to reflect new features or system goals.
+
+Add new class methods to the "Example Class Implementation" section.
+
+Include example usage for any new methods added.
+
+Update the architecture diagram if new modules or files are introduced.
+
+Document dependencies if new libraries or frameworks are added.
+
+Example Update
+
+If you add a new method like:
+
+@classmethod
+def filter_by_passing_score(cls, grades_list, passing_score=60):
+    """Return only students who passed."""
+    return [g for g in grades_list if g.get('score', 0) >= passing_score]
+
+
+Then update the README to:
+
+Include this method under “Class Design: GradeFilter”
+
+Add a short example under “Example Usage”
+
+Mention it under “How to Update the README”
+
+Why This Design Matters
+
+This object-oriented and modular approach offers several benefits:
+
+Scalability – Easily add more features without breaking existing ones.
+
+Reusability – Methods can be reused across different programs or projects.
+
+Clarity – Keeps the filtering logic separate from data storage or user interface code.
+
+Testability – Each method can be tested independently, improving reliability.
