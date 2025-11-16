@@ -1,0 +1,53 @@
+#Example 1
+students = {
+    "s111": {"name": "Marcus", "classes": ["Biology"], "grades": {}}
+}
+
+add_assignment_grade("s111", "Biology", "Lab Report 1", 72, 80)
+
+print(students["s111"])
+
+#Example 2
+students = {
+    "s222": {"name": "Lina", "classes": ["English"], "grades": {"English": {"Essay 1": {"points": 76, "max_points": 100}}}}
+}
+
+update_assignment_grade("s222", "English", "Essay 1", 89, 100)
+
+print(students["s222"])
+
+#Example 3
+students = {
+    "s333": {"name": "Jamal", "classes": ["Chemistry"], "grades": {"Chemistry": {"Quiz 1": {"points": 18, "max_points": 20}}}}
+}
+
+delete_assignment_grade("s333", "Chemistry", "Quiz 1")
+
+print(students["s333"])
+
+#Example 4
+students = {
+    "s444": {
+        "name": "Emily",
+        "classes": ["History"],
+        "grades": {"History": {
+            "Presentation": {"points": 47, "max_points": 50},
+            "Homework 2": {"points": 84, "max_points": 100}
+        }}
+    }
+}
+
+update_assignment_grade("s444", "History", "Homework 2", 92, 100)
+
+print(students["s444"])
+
+#Example 5
+students = {
+    "s555": {"name": "Adrian", "classes": ["Computer Science"], "grades": {}}
+}
+
+add_assignment_grade("s555", "Computer Science", "Project 1", 88, 100)
+update_assignment_grade("s555", "Computer Science", "Project 1", 95, 100)
+delete_assignment_grade("s555", "Computer Science", "Project 1")
+
+print(students["s555"])

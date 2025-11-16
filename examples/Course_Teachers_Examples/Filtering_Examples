@@ -1,0 +1,49 @@
+#Example 1 
+grades = [
+    {'name': 'Alex', 'assignment_type': 'quiz', 'score': 85},
+    {'name': 'Maria', 'assignment_type': 'exam', 'score': 92},
+    {'name': 'Lina', 'assignment_type': 'quiz', 'score': 78}
+]
+
+result = filter_by_assignment_type(grades, 'quiz')
+print(result)
+
+#Example 2 
+grades = [
+    {'name': 'Alex', 'assignment_type': 'lab', 'is_late': True},
+    {'name': 'Maria', 'assignment_type': 'quiz', 'is_late': False},
+    {'name': 'Noah', 'assignment_type': 'exam', 'is_late': True}
+]
+
+result = filter_late_submissions(grades)
+print(result)
+
+#Example 3
+grades = [
+    {'name': 'Alex', 'score': 85},
+    {'name': 'Maria', 'score': 60},
+    {'name': 'Jamal', 'score': 95}
+]
+
+result = filter_by_score_range(grades, min_score=70, max_score=90)
+print(result)
+
+#Example 4
+grades = [
+    {'name': 'Alex', 'score': 85},
+    {'name': 'alex', 'score': 90},
+    {'name': 'Maria', 'score': 88}
+]
+
+result = filter_by_student_name(grades, 'Alex')
+print(result)
+
+# Example usage of filtering functions
+grades = [
+    {'name': 'Alex', 'week': 1, 'score': 80},
+    {'name': 'Maria', 'week': 2, 'score': 90},
+    {'name': 'Lina', 'week': 1, 'score': 95}
+]
+
+result = filter_by_week(grades, 1)
+print(result)

@@ -1,0 +1,64 @@
+# Shared gradebook
+gradebook = Gradebook([])
+
+# Students
+student1 = Student("Alex Morgan", "INST326", gradebook)
+student2 = Student("Ella Chen", "INST326", gradebook)
+
+# Assignment
+hw1 = Assignment("Homework 1", "Homework", 100, week=1)
+
+# Students add grade records
+student1.add_grade(hw1.create_grade_record("Alex Morgan", 90))
+student2.add_grade(hw1.create_grade_record("Ella Chen", 85))
+
+# Output
+print(student1.get_grades())
+print(student1.get_average())
+print(student2.get_grades())
+print(student2.get_average())
+
+#EXAMPLE 2
+# Shared gradebook
+gradebook = Gradebook([])
+
+# Student
+student = Student("Brian Taylor", "INST327", gradebook)
+
+# Assignments
+quiz = Assignment("Quiz 1", "Quiz", 20, week=2)
+project = Assignment("Project 1", "Project", 100, week=4)
+midterm = Assignment("Midterm Exam", "Exam", 100, week=6)
+
+# Add grades
+student.add_grade(quiz.create_grade_record("Brian Taylor", 18))
+student.add_grade(project.create_grade_record("Brian Taylor", 92))
+student.add_grade(midterm.create_grade_record("Brian Taylor", 85, is_late=True))
+
+# Output
+print(student.get_grades())
+print("Average:", student.get_average())
+
+#EXAMPLE 3
+# Shared gradebook
+gradebook = Gradebook([])
+
+# Student
+student = Student("Laila Brown", "INST335", gradebook)
+
+# Assignments
+discussion = Assignment("Discussion Post", "Discussion", 10, week=1)
+exam = Assignment("Final Exam", "Exam", 100, week=8)
+
+# Valid grade (late)
+student.add_grade(discussion.create_grade_record("Laila Brown", 8, is_late=True))
+
+# Attempt to add grade for wrong student
+try:
+    student.add_grade(exam.create_grade_record("Wrong Name", 95))
+except ValueError as e:
+    print("Error:", e)
+
+# Output
+print(student.get_grades())
+print("Average:", student.get_average())

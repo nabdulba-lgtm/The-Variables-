@@ -1,0 +1,40 @@
+# Make a teacher
+teacher = Teacher("Prof. Smith", "Computer Science")
+
+# Make two courses
+course1 = Course("CMSC131", "Intro to Programming", "Prof. Smith")
+course2 = Course("CMSC250", "Discrete Structures", "Prof. Smith")
+
+# Make students
+john = Student("John")
+emma = Student("Emma")
+liam = Student("Liam")
+
+# Enroll students
+course1.add_student(john)
+course1.add_student(emma)
+
+course2.add_student(emma)   # Emma also takes CMSC250
+course2.add_student(liam)
+
+# Add courses to teacher
+teacher.add_course(course1)
+teacher.add_course(course2)
+
+# Make assignments
+hw = Assignment("Homework 1", 100)
+
+# Add grades to each course
+teacher.add_grade_to_student(course1, john, hw, 88)
+teacher.add_grade_to_student(course1, emma, hw, 94)
+
+teacher.add_grade_to_student(course2, emma, hw, 90)
+teacher.add_grade_to_student(course2, liam, hw, 85)
+
+# Output
+print(course1)
+print(course2)
+print("Course 1 avg:", course1.get_course_average())
+print("Course 2 avg:", course2.get_course_average())
+print("Teacher:", teacher)
+print("Total students:", teacher.get_total_students())
