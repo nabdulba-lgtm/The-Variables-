@@ -1,0 +1,138 @@
+from abc import ABC, abstractmethod
+
+# GLOBAL STUDENT DATA EXAMPLE (your real one will exist outside)
+students = {
+    "s123": {
+        "name": "Alice",
+        "classes": ["Math", "Biology"],
+        "grades": {
+            "Math": {
+                "Homework 1": {"points": 85, "max_points": 100}
+            }
+        }
+    },
+    "s456": {
+        "name": "Bob",
+        "classes": ["Math"]
+    }
+}
+
+
+# ---------- ABSTRACT BASE CLASS DEFINING SHARED INTERFACE ---------- #
+
+class GradeOperation(ABC):
+    """Abstract base class for polymorphic grade modification operations."""
+
+    @abstractmethod
+    def execute(self):
+        """Perform the grade operation."""
+        pass
+
+
+# ---------- SPECIALIZED GRADE MODIFICATION CLASSES (INHERITANCE) ---------- #
+
+class AddGrade(GradeOperation):
+    def __init__(self, student_id, class_name, assignment_name, points, max_points):
+        self.student_id = student_id
+        self.class_name = class_name
+        self.assignment_name = assignment_name
+        self.points = points
+        self.max_points = max_points
+
+    def execute(self):
+        # validation
+        if self.student_id not in students:
+            raise KeyError(f"Student '{self.student_id}' not found.")
+        student = students[self.student_id]
+        if self.class_name not in student["classes"]:
+            raise KeyError(f"{student['name']} is not enrolled in {self.class_name}.")
+        student.setdefault("grades", {})
+        student["grades"].setdefault(self.class_name, {})
+
+        # add / update grade
+        student["grades"][self.class_name][self.assignment_name] = {
+            "points": self.points,
+            "max_points": self.max_points
+        }
+        print(f"Added grade for '{self.assignment_name}' in {self.class_name} for {student['name']}.")
+
+
+class UpdateGrade(GradeOperation):
+    def __init__(self, student_id, class_name, assignment_name, new_points, new_max_points):
+        self.student_id = student_id
+        self.class_name = class_name
+        self.assignment_name = assignment_name
+        self.new_points = new_points
+        self.new_max_points = new_max_points
+
+    def execute(self):
+        if self.student_id not in students:
+            raise KeyError(f"Student '{self.student_id}' not found.")
+        student = students[self.student_id]
+        if self.class_name not in student.get("grades", {}):
+            raise KeyError(f"No grades found for {self.class_name}.")
+        if self.assignment_name not in student["grades"][self.class_name]:
+            raise KeyError(f"Assignment '{self.assignment_name}' not found in {self.class_name}.")
+
+        student["grades"][self.class_name][self.assignment_name]["points"] = self.new_points
+        student["grades"][self.class_name][self.assignment_name]["max_points"] = self.new_max_points
+        print(f"Updated grade for '{self.assignment_name}' in {self.class_name} for {student['name']}.")
+
+
+class DeleteGrade(GradeOperation):
+    def __init__(self, student_id, class_name, assignment_name):
+        self.student_id = student_id
+        self.class_name = class_name
+        self.assignment_name = assignment_name
+
+    def execute(self):
+        if self.student_id not in students:
+            raise KeyError(f"Student '{self.student_id}' not found.")
+        student = students[self.student_id]
+        if self.class_name not in student.get("grades", {}):
+            raise KeyError(f"No grades found for {self.class_name}.")
+        if self.assignment_name not in student["grades"][self.class_name]:
+            raise KeyError(f"Assignment '{self.assignment_name}' not found in {self.class_name}.")
+
+        del student["grades"][self.class_name][self.assignment_name]
+        print(f"Deleted '{self.assignment_name}' from {self.class_name} for {student['name']}.")
+
+        if not student["grades"][self.class_name]:  # remove class if empty
+            del student["grades"][self.class_name]
+
+
+# ------------------ COMPOSITION: GRADE MANAGER ------------------ #
+
+class GradeManager:
+    """
+    Holds and runs grade modification requests.
+    Demonstrates composition because GradeManager HAS a list of GradeOperation objects.
+    """
+
+    def __init__(self):
+        self.operations = []
+
+    def add_operation(self, operation: GradeOperation):
+        """Supports any subclass of GradeOperation (polymorphism)."""
+        self.operations.append(operation)
+
+    def run(self):
+        """Executes operations in order."""
+        for op in self.operations:
+            op.execute()
+
+
+# --------------------- DEMO / USAGE --------------------- #
+
+if __name__ == "__main__":
+    gm = GradeManager()
+
+    gm.add_operation(AddGrade("s456", "Math", "Quiz 1", 78, 100))
+    gm.add_operation(UpdateGrade("s123", "Math", "Homework 1", 90, 100))
+    gm.add_operation(DeleteGrade("s123", "Math", "Homework 1"))
+
+    gm.run()
+
+    print("\nStudent grade data now:")
+    from pprint import pprint
+    pprint(students)

@@ -1,0 +1,149 @@
+from abc import ABC, abstractmethod
+
+
+#  ABSTRACT BASE CLASS
+class AbstractAssignment(ABC):
+    "Abstract assignment that all assignment types inherit from."
+
+    def __init__(self, name, points, max_points):
+        self.name = name
+        self.points = points
+        self.max_points = max_points
+
+    @abstractmethod
+    def calculate_score_percentage(self):
+        "Each assignment type calculates percentages differently."
+        pass
+
+    def update(self, points, max_points):
+        self.points = points
+        self.max_points = max_points
+
+
+#  INHERITANCE / POLYMORPHISM
+class Homework(AbstractAssignment):
+    "Homework scores are normal percentage."
+    def calculate_score_percentage(self):
+        return (self.points / self.max_points) * 100
+
+
+class Quiz(AbstractAssignment):
+    "Quizzes weigh 1.2x (example of specialization)."
+    def calculate_score_percentage(self):
+        base = self.points / self.max_points
+        return min(base * 1.2 * 100, 100)
+
+
+class Project(AbstractAssignment):
+    "Projects weigh 0.9x because they are more difficult."
+    def calculate_score_percentage(self):
+        base = self.points / self.max_points
+        return base * 0.9 * 100
+
+
+#  COMPOSITION CLASSES
+class Student:
+    "A student *has* classes and grades (composition)."
+    
+    def __init__(self, student_id, name):
+        self.student_id = student_id
+        self.name = name
+        self.classes = set()
+        self.grades = {}  # { class_name: { assignment_name: AssignmentObject } }
+
+    def enroll(self, class_name):
+        self.classes.add(class_name)
+        if class_name not in self.grades:
+            self.grades[class_name] = {}
+
+    def add_assignment(self, class_name, assignment: AbstractAssignment):
+        if class_name not in self.classes:
+            raise KeyError(f"{self.name} is not enrolled in {class_name}.")
+        self.grades[class_name][assignment.name] = assignment
+
+    def delete_assignment(self, class_name, assignment_name):
+        del self.grades[class_name][assignment_name]
+
+
+class Gradebook:
+    “ Gradebook *has* students (composition)    "
+
+    def __init__(self):
+        self.students = {}
+
+    def add_student(self, student: Student):
+        self.students[student.student_id] = student
+
+    #  FUNCTION EQUIVALENTS
+    def add_assignment_grade(self, student_id, class_name, assignment_obj):
+        "
+        Adds an Assignment object (Homework, Quiz, Project).
+        - Polymorphism: object can be ANY derived assignment type.
+        "
+        if student_id not in self.students:
+            raise KeyError(f"Student '{student_id}' not found.")
+
+        student = self.students[student_id]
+
+        if class_name not in student.classes:
+            raise KeyError(f"{student.name} is not enrolled in {class_name}.")
+
+        student.add_assignment(class_name, assignment_obj)
+        print(f"Added {assignment_obj.__class__.__name__} '{assignment_obj.name}' "
+              f"in {class_name} for {student.name}.")
+
+    def update_assignment_grade(self, student_id, class_name, assignment_name, new_points, new_max_points):
+        if student_id not in self.students:
+            raise KeyError("Student not found.")
+
+        student = self.students[student_id]
+
+        if class_name not in student.grades:
+            raise KeyError("Class not found.")
+
+        if assignment_name not in student.grades[class_name]:
+            raise KeyError("Assignment not found.")
+
+        assignment = student.grades[class_name][assignment_name]
+        assignment.update(new_points, new_max_points)
+
+        print(f"Updated '{assignment_name}' in {class_name} for {student.name}.")
+
+    def delete_assignment_grade(self, student_id, class_name, assignment_name):
+        if student_id not in self.students:
+            raise KeyError("Student not found.")
+
+        student = self.students[student_id]
+
+        if class_name not in student.grades:
+            raise KeyError(f"No grades found for {class_name}.")
+
+        if assignment_name not in student.grades[class_name]:
+            raise KeyError(f"Assignment '{assignment_name}' not found.")
+
+        student.delete_assignment(class_name, assignment_name)
+
+        print(f"Deleted '{assignment_name}' from {class_name} for {student.name}.")
+
+
+Example: 
+gradebook = Gradebook()
+
+# Create a student
+Nailah = Student("s123", "Nailah")
+Nailah.enroll("Math")
+gradebook.add_student(alice)
+
+# Add homework (polymorphic)
+hw = Homework("Homework 1", 85, 100)
+gradebook.add_assignment_grade("s123", "Math", hw)
+
+# Add quiz
+quiz = Quiz("Quiz 1", 8, 10)
+gradebook.add_assignment_grade("s123", "Math", quiz)
+
+# Update a grade
+gradebook.update_assignment_grade("s123", "Math", "Homework 1", 90, 100)
+
+# Delete a grade
+gradebook.delete_assignment_grade("s123", "Math", "Quiz 1")

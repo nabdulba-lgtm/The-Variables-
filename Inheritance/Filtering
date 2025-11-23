@@ -1,0 +1,100 @@
+from abc import ABC, abstractmethod
+
+
+class GradeFilter(ABC):
+    """Abstract base class for all grade filters."""
+
+    @abstractmethod
+    def apply(self, grades):
+        """Apply filter to a grade list and return filtered list."""
+        pass
+
+
+# ---- Derived Filter Classes (Inheritance + Polymorphism) ---- #
+
+class AssignmentTypeFilter(GradeFilter):
+    def __init__(self, assignment_type):
+        self.assignment_type = assignment_type
+
+    def apply(self, grades):
+        return [g for g in grades if g.get('assignment_type') == self.assignment_type]
+
+
+class LateSubmissionFilter(GradeFilter):
+    def apply(self, grades):
+        return [g for g in grades if g.get('is_late', False)]
+
+
+class ScoreRangeFilter(GradeFilter):
+    def __init__(self, min_score=0, max_score=100):
+        self.min_score = min_score
+        self.max_score = max_score
+
+    def apply(self, grades):
+        return [g for g in grades if self.min_score <= g.get('score', 0) <= self.max_score]
+
+
+class StudentNameFilter(GradeFilter):
+    def __init__(self, student_name):
+        self.student_name = student_name.lower()
+
+    def apply(self, grades):
+        return [g for g in grades if g.get('name', "").lower() == self.student_name]
+
+
+class WeekFilter(GradeFilter):
+    def __init__(self, week_number):
+        self.week_number = week_number
+
+    def apply(self, grades):
+        return [g for g in grades if g.get('week') == self.week_number]
+
+
+# ---- COMPOSITION: Filter Manager (HAS-A relationship) ---- #
+
+class FilterManager:
+    """
+    Manages grade filters. Demonstrates composition because
+    FilterManager HAS multiple GradeFilter objects.
+    """
+
+    def __init__(self):
+        self.filters = []   # contains filter objects (composition)
+
+    def add_filter(self, grade_filter: GradeFilter):
+        """Add a filter (uses polymorphism — any GradeFilter subtype works)."""
+        self.filters.append(grade_filter)
+
+    def apply_all(self, grades):
+        """
+        Applies all filters in order.
+        Polymorphism: each filter is called through the base class method .apply()
+        even though the concrete filter types differ.
+        """
+        for f in self.filters:
+            grades = f.apply(grades)
+        return grades
+
+
+# --------------------- DEMO / TESTING --------------------- #
+
+if __name__ == "__main__":
+    sample_grades = [
+        {"name": "Alex", "assignment_type": "quiz", "score": 85, "is_late": False, "week": 1},
+        {"name": "Alex", "assignment_type": "exam", "score": 92, "is_late": True, "week": 2},
+        {"name": "Maria", "assignment_type": "quiz", "score": 60, "is_late": True, "week": 1},
+        {"name": "Jin", "assignment_type": "homework", "score": 77, "is_late": False, "week": 3},
+        {"name": "Maria", "assignment_type": "exam", "score": 95, "is_late": False, "week": 2},
+    ]
+
+    fm = FilterManager()
+
+    # Example of stacking multiple filters
+    fm.add_filter(AssignmentTypeFilter("quiz"))
+    fm.add_filter(ScoreRangeFilter(70, 100))
+    fm.add_filter(WeekFilter(1))
+
+    filtered_results = fm.apply_all(sample_grades)
+    print("Filtered results:")
+    for row in filtered_results:
+        print(row)

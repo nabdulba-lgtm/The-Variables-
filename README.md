@@ -252,3 +252,118 @@ Reusability – Methods can be reused across different programs or projects.
 Clarity – Keeps the filtering logic separate from data storage or user interface code.
 
 Testability – Each method can be tested independently, improving reliability.
+
+PROJECT 3
+
+                   ┌────────────────────────┐
+                   │        User (ABC)       │
+                   │  + user_id              │
+                   │  + name                 │
+                   │  + email                │
+                   │  + login()              │
+                   │  + logout()             │
+                   │  + dashboard() [abstract│
+                   └───────────┬────────────┘
+                               │
+       ┌───────────────────────┴────────────────────────┐
+       │                                                │
+┌───────────────┐                               ┌────────────────┐
+│   Student     │                               │    Teacher     │
+│ + classes     │                               │ + teaches      │
+│ + grades      │                               │ + add_grade()  │
+│ + view_grades │                               │ + update_grade │
+└───────────────┘                               └────────────────┘
+
+
+                     ┌────────────────────────────────┐
+                     │    Assignment (ABC)             │
+                     │ + name                          │
+                     │ + points                        │
+                     │ + max_points                    │
+                     │ + calculate_percentage() [abs]  │
+                     └──────────────┬─────────────────┘
+                                    │
+     ┌──────────────────────────────┼────────────────────────────┐
+     │                              │                            │
+┌───────────────┐          ┌─────────────────┐         ┌─────────────────┐
+│ Homework      │          │    Quiz         │         │      Exam       │
+│ + fixed weight│          │ + penalty rule  │         │ + curved scores │
+└───────────────┘          └─────────────────┘         └─────────────────┘
+
+Polymorphism in the Project
+
+Polymorphism allows the same function call to produce different behavior depending on the object type.
+
+Example 1 — Dashboards
+def show_dashboard(user: User):
+    user.dashboard()   # calls Student or Teacher implementation automatically
+
+
+If the object is a Student, it displays enrolled classes and current grades.
+If it is a Teacher, it displays course roster and grading statistics.
+The function call stays the same; the implementation varies by subclass.
+
+Example 2 — Grade Calculations
+for assignment in student.assignments:
+    percent = assignment.calculate_percentage()
+
+
+The loop does not need to know whether the assignment is Homework, Quiz, or Exam.
+Polymorphism ensures each subclass applies its own rules:
+
+Homework returns a normal percentage
+
+Quiz may apply a late penalty
+
+Exam may apply a grade curve
+
+Benefits of Inheritance in This System
+
+Without inheritance, Student and Teacher would each require their own login logic, dashboard code, session management, and shared validation. With inheritance:
+
+Shared behavior is placed once in the User base class
+
+Student and Teacher reuse shared functions and extend only where necessary
+
+New user roles (Admin, Parent, Counselor, etc.) can be added by creating new subclasses and implementing the dashboard method
+
+This reduces duplicated code, increases scalability, and enforces consistent behavior among all user types.
+
+Usage Examples Demonstrating Inheritance and Polymorphism
+Adding Grades
+teacher = Teacher("t101", "Dr. Reed", "reed@example.com")
+student = Student("s300", "Ava Chen", "ava@example.com")
+assignment = Exam("Exam 1", 86, 100)
+
+teacher.add_grade(student, assignment)
+
+
+The system uses composition to store the grade inside the student object.
+Polymorphism ensures the correct percentage calculation for an Exam (curved) rather than a Quiz or Homework.
+
+Displaying Dashboards
+user = login("s300")
+user.dashboard()
+
+
+Outcome depends on the concrete object type:
+
+If the user is a Student, grade breakdown is shown
+
+If the user is a Teacher, course and grading statistics are shown
+
+The caller does not need to know the subclass type.
+
+Filtering Grades
+high_scores = filter_by_score_range(student.get_all_grades(), 90, 100)
+
+
+The filter works regardless of whether the grades came from Homework, Quiz, or Exam objects, enabling polymorphic analytics.
+
+Summary of OOP Requirements
+Concept	Location in the System
+Inheritance	User → Student / Teacher, Assignment → Homework / Quiz / Exam
+Abstract Classes	User and Assignment define abstract methods that must be overridden
+Polymorphism	dashboard() and calculate_percentage() execute different logic depending on object type
+Composition	Students contain assignments and grades rather than inheriting from Assignment
+Encapsulation	Grade modification can only occur through Teacher-validated methods
