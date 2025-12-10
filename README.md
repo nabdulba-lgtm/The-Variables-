@@ -59,23 +59,24 @@ Score: 95
 
 The system contains three major components:
 
-User Management:
+#User Management:
 - User (base class)
 - Student
 - Teacher
 - Password validation
 - Role-based access (student vs teacher menu)
-Gradebook: 
+#Gradebook: 
 - Stores all grade data
 - Computes class average
 - Assignment-level retrieval
 - Handles updates from CSV import
-Datastore (Persistence Layer): 
+#Datastore (Persistence Layer): 
 - Saves full system state to JSON
 - Loads data from previous sessions
 - Imports grades from CSV
 - Exports reports to JSON
 - Graceful error handling for missing/corrupt files
+
 #Testing Overview:
 Unit Tests:
 - User creation + authentication
