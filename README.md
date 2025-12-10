@@ -1,26 +1,35 @@
-# The-Variables 
-# Team Members: Matti Wakiwaya, Nailah Abdulbarr, Tidjani Sidi Ahmed, Andrew Ly
-# Project Title: Student Gradebook 
-#Roles: 
-* Matti Wakiwaya: Project Manager
-* Nailah Abdulbarr: Documentation Manager
-* Tidjani Sidi Ahmed: Tester/Coder
-* Andrew Ly: Coder
+# Student Gradebook System
 
-# Description: Many schools face challenges when it comes to efficiently managing and tracking student grades. This project aims to develop a comprehensive user-friendly web designed to simplify grade management for both teachers and students.
-* Key Features:
-* User-Friendly Interface: A clean, intuitive design for both the website and app that allows users to easily navigate and access relevant features.
-* Grade Average Calculator: A smart, easy-to-use grade calculator that accurately computes average scores based on custom weighting or grading policies
-* Secure Login System: Role-based secure login portals for students, teachers, and administrators to ensure data privacy and controlled access
-* Teacher Gradebook Access: A dedicated interface for teachers to input, view, and update student grades, with tools to analyze performance over time.
+**Team:** Matti Wakiwaya, Nailah Abdulbarr, Tidjani Sidi Ahmed, Andrew Ly (The-Variables) 
+**Domain:** Student Gradebook 
+**Course:** INST326 - Object-Oriented Programming for Information Science  
 
-#Domain
+
+## Project Overview
 The domain of this project lies within the field of educational technology, focusing specifically on digital grade management systems. In modern educational environments, teachers and students rely heavily on accurate and accessible tools to track academic performance. However, many existing systems are outdated, difficult to navigate, or lack key features that promote transparency and engagement. Our project seeks to bridge this gap by developing a platform that integrates intuitive design, secure access, and analytical tools, empowering both educators and learners to better understand and manage academic progress.
 
-Problem Statement:Many schools lack an efficient, secure, and user-friendly system for managing and communicating student grades, resulting in disorganization, limited accessibility, and reduced academic transparency.
+## Problem Statement
+Academic environments often lack simple tools that allow teachers to:
+- Add and manage student grades
+- Import grade data from CSV files
+- Export summary reports
+- View class averages
+- Preserve data between sessions
+Students need a quick way to view their grades without modifying system data.Many schools lack an efficient, secure, and user-friendly system for managing and communicating student grades, resulting in disorganization, limited accessibility, and reduced academic transparency.
 
 #Overall Goal:
-* To streamline academic performance tracking while ensuring ease of use, data security, and effective communication between students and teachers.
+* To streamline academic performance tracking while ensuring ease of use, data security, and effective communication between students and teachers
+
+## Installation and Setup
+1. Clone this repository:
+   git clone https://github.com/your-username/gradebook-information-system.git
+cd gradebook-information-system
+
+2. No external dependencies required - uses Python standard library only
+
+3. Run the application
+   python app.py
+   mac: python3 app.py
 
 Installation Set-Up
 To set up and run the Student Gradebook project locally:
@@ -32,6 +41,54 @@ To set up and run the Student Gradebook project locally:
 -Open the examples folder to view and run the demo script
 -Explore the source code inside the src folder to understand the project’s structure and functionality.
 -Refer to the docs directory for detailed documentation and function usage instructions.
+
+
+## Quick Usage Examples
+Login (Default teacher account):
+Username: admin
+Password: pass
+
+Add a Grade: 
+1. Add grade
+Student username: bob
+Assignment: Lab1
+Score: 95
+
+
+##System  Overview
+
+The system contains three major components:
+
+User Management:
+- User (base class)
+- Student
+- Teacher
+- Password validation
+- Role-based access (student vs teacher menu)
+Gradebook: 
+- Stores all grade data
+- Computes class average
+- Assignment-level retrieval
+- Handles updates from CSV import
+Datastore (Persistence Layer): 
+- Saves full system state to JSON
+- Loads data from previous sessions
+- Imports grades from CSV
+- Exports reports to JSON
+- Graceful error handling for missing/corrupt files
+#Testing Overview:
+Unit Tests:
+- User creation + authentication
+- Gradebook grade storage and class averages
+- Datastore save/load functions
+Integration Tests:
+- Gradebook ↔ Datastore interaction
+- CSV import flow
+- User + gradebook combined operations
+System Tests: 
+- End-to-end teacher workflow
+- Student grade retrieval after reload
+- CSV → JSON report end-to-end
 
 Function List
 The project’s main functions are organized within the src/ directory to ensure modularity and clarity. Each team member contributed specific functional components:
